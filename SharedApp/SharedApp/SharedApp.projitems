@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>960bdc2b-310f-482b-b46d-7276b1158e6b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SharedApp</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\SQLite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\TaskItemDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImagePicker\IImagePicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ImagePicker\PhotoViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Task.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Transactions\ITaskManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Transactions\TaskManagerImpl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ListTaskPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\TaskCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\TaskPage.cs" />
+  </ItemGroup>
+</Project>
