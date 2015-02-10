@@ -12,12 +12,13 @@ namespace SharedApp.Views
 {
 	public class TaskPage : ContentPage
 	{
-		public TaskPage ()
+		public TaskPage (Task task)
 		{
             this.SetBinding(ContentPage.TitleProperty, "taskTitle");
             TaskManagerImpl tm = TaskManagerImpl.Instance;
             NavigationPage.SetHasNavigationBar(this, true);
-
+            var currentTask = task;
+            Console.WriteLine("CURRENT TASK" + currentTask.ID);
             var titleLabel = new Label { Text = "Title" };
             var titleEntry = new Entry();
 
@@ -45,30 +46,25 @@ namespace SharedApp.Views
                 this.Navigation.PopAsync();
             };
 
-            
+            var imageView = new Image {
+                Source = null
+            };
 
-#if __ANDROID__ 
-            var imageView = new Image { };
-            
+            if (currentTask != null)
+            {                
+                if (currentTask.taskImage != null)
+                {                   
+                    imageView.Source = ImageSource.FromFile(currentTask.taskImage);
+                }                    
+            }
                 
             var pickImageButton = new Button { Text = "Pick image" };
             
             pickImageButton.Clicked += (sender, e) =>
             {
-
-                var mediaFile = DependencyService.Get<IImagePicker>().getImageActivity();
-                MediaFile x =  mediaFile.Result;
-                imageView.Source = ImageSource.FromStream(mediaFile.Result.GetStream);
-                
-                                
+                DependencyService.Get<IImagePicker>().getImageActivity(currentTask.ID);
             };
 
-            
-#endif
-           
-
-
-           
             Content = new StackLayout
             {
                 VerticalOptions = LayoutOptions.StartAndExpand,
@@ -82,7 +78,7 @@ namespace SharedApp.Views
             };
 
 		}
-        public delegate MediaFile getPhoto();
+        
 
        
        

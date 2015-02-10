@@ -22,14 +22,16 @@ namespace SharedApp.Droid
 {
     public class ImageService : IImagePicker
     {
-        public Task<MediaFile> getImageActivity()
+        public void getImageActivity(int taskId)
         {
             #region IImagePicker implementation
+            Console.WriteLine("IMAGE SERVICE TASK ID" + taskId);
             Class isd = new ImageActivity().Class;
             var intent = new Intent(Forms.Context, isd);
+            intent.PutExtra("taskId", taskId);
             Forms.Context.StartActivity(intent);
 
-            return null;
+            
             #endregion
 
         }

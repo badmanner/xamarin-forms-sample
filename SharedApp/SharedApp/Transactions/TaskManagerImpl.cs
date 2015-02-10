@@ -52,5 +52,15 @@ namespace SharedApp
            App.Database.saveItem(task);
         }
 
+        public Task getTask(int taskId)
+        {
+            return App.Database.getItem(taskId);
+        }
+
+        public void updateTask(Task task)
+        {            
+            App.Database.saveItem(task);
+        }
+
     }
 }

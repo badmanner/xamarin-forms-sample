@@ -8,6 +8,6 @@ namespace SharedApp.ImagePicker
 {
     public interface IImagePicker
     {
-        Task<MediaFile> getImageActivity();
+        void getImageActivity(int taskId);
     }
 }

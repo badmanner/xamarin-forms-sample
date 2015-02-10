@@ -13,6 +13,8 @@ namespace SharedApp.Views
         TaskManagerImpl tm = TaskManagerImpl.Instance;
 		public ListTaskPage ()
 		{
+            
+
             Title = "Task list";
 
             NavigationPage.SetHasNavigationBar(this, true);
@@ -23,7 +25,14 @@ namespace SharedApp.Views
             };
 
             listView.ItemTemplate = new DataTemplate(typeof(TaskCell));
-
+            if (tm.getTasks() != null)
+            {                
+                listView.ItemsSource = tm.getTasks();
+                foreach (Task task in tm.getTasks())
+                {
+                    Console.WriteLine("IMAGE FOR EACH TASK " + task.taskImage + " " + task.ID);
+                }
+            }
             
 
 
@@ -49,7 +58,7 @@ namespace SharedApp.Views
             listView.ItemSelected += (sender, e) =>
             {
                 var taskItem = (Task) e.SelectedItem;
-                var taskPage = new TaskPage();
+                var taskPage = new TaskPage(taskItem);
                 taskPage.BindingContext = taskItem;
                                 
                 Navigation.PushAsync(taskPage);
@@ -61,7 +70,7 @@ namespace SharedApp.Views
             tbitem = new ToolbarItem("+", null, () =>
             {
                 var taskItem = new Task();
-                var taskPage = new TaskPage();
+                var taskPage = new TaskPage(taskItem);
 
                 taskPage.BindingContext = taskItem;
                 Navigation.PushAsync(taskPage);
@@ -75,7 +84,13 @@ namespace SharedApp.Views
         {
             base.OnAppearing();
             if (tm.getTasks() != null)
+            {
                 listView.ItemsSource = tm.getTasks();
+                foreach (Task task in tm.getTasks()) {
+                    Console.WriteLine("IMAGE FOR EACH TASK " + task.taskImage + " " + task.ID);
+                }
+            }
+                
         }
 	}
 }
