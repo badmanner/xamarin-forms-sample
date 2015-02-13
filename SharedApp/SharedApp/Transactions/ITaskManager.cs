@@ -10,6 +10,6 @@ namespace SharedApp.Models
        IEnumerable getTasks();
        //int getSize();
        void deleteTask(Task task);
-       void addTask(Task task);
+       int addTask(Task task);
     }
 }

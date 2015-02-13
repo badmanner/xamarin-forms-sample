@@ -28,6 +28,7 @@ namespace SharedApp.Droid
 		{
 			global::Acr.XamForms.Mobile.Droid.Resource.String.ApplicationName = global::SharedApp.Droid.Resource.String.ApplicationName;
 			global::Acr.XamForms.Mobile.Droid.Resource.String.Hello = global::SharedApp.Droid.Resource.String.Hello;
+			global::Couchbase.Lite.Android.Resource.String.library_name = global::SharedApp.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Labs.Droid.Resource.Color.calendar_active_month_bg = global::SharedApp.Droid.Resource.Color.calendar_active_month_bg;
 			global::Xamarin.Forms.Labs.Droid.Resource.Color.calendar_bg = global::SharedApp.Droid.Resource.Color.calendar_bg;
 			global::Xamarin.Forms.Labs.Droid.Resource.Color.calendar_divider = global::SharedApp.Droid.Resource.Color.calendar_divider;

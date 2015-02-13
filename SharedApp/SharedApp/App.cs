@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
+using Couchbase.Lite;
 
 namespace SharedApp
 {
@@ -15,15 +16,20 @@ namespace SharedApp
         public App()
         {
             database = new TaskItemDatabase();
+            manager = CouchBase.init();
             MainPage = new NavigationPage(new ListTaskPage { });
-
-            
         }
 
         static TaskItemDatabase database;
         public static TaskItemDatabase Database
         {
             get { return database; }
+        }
+
+        static Manager manager;
+        public static Manager Manager
+        {
+            get { return manager; }
         }
 
             

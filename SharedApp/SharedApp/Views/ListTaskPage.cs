@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Couchbase.Lite;
 using Xamarin.Forms;
 
 namespace SharedApp.Views
@@ -10,7 +10,10 @@ namespace SharedApp.Views
 	public class ListTaskPage : ContentPage
 	{
         ListView listView;
-        TaskManagerImpl tm = TaskManagerImpl.Instance;
+        //TaskManagerImpl tm = TaskManagerImpl.Instance;
+        Manager manager = App.Manager;
+        
+
 		public ListTaskPage ()
 		{
             
@@ -25,14 +28,7 @@ namespace SharedApp.Views
             };
 
             listView.ItemTemplate = new DataTemplate(typeof(TaskCell));
-            if (tm.getTasks() != null)
-            {                
-                listView.ItemsSource = tm.getTasks();
-                foreach (Task task in tm.getTasks())
-                {
-                    Console.WriteLine("IMAGE FOR EACH TASK " + task.taskImage + " " + task.ID);
-                }
-            }
+           
             
 
 
@@ -58,7 +54,7 @@ namespace SharedApp.Views
             listView.ItemSelected += (sender, e) =>
             {
                 var taskItem = (Task) e.SelectedItem;
-                var taskPage = new TaskPage(taskItem);
+                var taskPage = new TaskPage(taskItem.ID);
                 taskPage.BindingContext = taskItem;
                                 
                 Navigation.PushAsync(taskPage);
@@ -70,7 +66,7 @@ namespace SharedApp.Views
             tbitem = new ToolbarItem("+", null, () =>
             {
                 var taskItem = new Task();
-                var taskPage = new TaskPage(taskItem);
+                var taskPage = new TaskPage(taskItem.ID);
 
                 taskPage.BindingContext = taskItem;
                 Navigation.PushAsync(taskPage);
@@ -83,13 +79,33 @@ namespace SharedApp.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (tm.getTasks() != null)
+            Database db = manager.GetDatabase("task-db");
+            Document doc = db.CreateDocument();
+            
+            var properties = new Dictionary<string, object>()
             {
-                listView.ItemsSource = tm.getTasks();
-                foreach (Task task in tm.getTasks()) {
-                    Console.WriteLine("IMAGE FOR EACH TASK " + task.taskImage + " " + task.ID);
-                }
-            }
+                {"title", "title one"},
+                {"text", "text one"}
+            };
+            doc.PutProperties(properties);
+            
+            Console.WriteLine("HELLO                                          BEFORE");
+            Console.WriteLine("HELLO  " + doc.Id);
+            Console.WriteLine("HELLO  " + doc.CurrentRevisionId);
+            doc.Id = "task-id";
+            doc.Update((UnsavedRevision newRevision) =>
+            {
+                var prop = newRevision.Properties;
+                prop["title"] = "title2";
+                prop["text"] = "text2";
+                return true;
+            });
+           
+
+            Document doc2  = db.GetDocument("task-id");
+            
+            //Console.WriteLine("HELLO  " + doc2.GetProperty("title"));
+
                 
         }
 	}

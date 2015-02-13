@@ -45,20 +45,20 @@ namespace SharedApp.Droid
         {
 
             // User canceled
-            
+            Console.WriteLine("                     BEFORE CANCELED  ");
             if (resultCode == Result.Canceled)
                 return;
 
             
             data.GetMediaFileExtraAsync(this).ContinueWith(t =>
-            {
-                Console.WriteLine(" TASK ID" + taskId);
-                Console.WriteLine("IMAGE PATH" + t.Result.Path);
+            {               
+
                 Task task = tm.getTask(taskId);                
                 task.taskImage = t.Result.Path;
-                Console.WriteLine(task.taskImage);
+                Console.WriteLine("                     BEFORE UPDATE  ");
                 tm.updateTask(task);
-
+                Console.WriteLine("                     AFTER UPDATE  ");
+                Finish();
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 

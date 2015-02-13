@@ -7,18 +7,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Media;
+using Couchbase.Lite;
 
 namespace SharedApp.Views
 {
 	public class TaskPage : ContentPage
 	{
-		public TaskPage (Task task)
+		public TaskPage (int taskId)
 		{
             this.SetBinding(ContentPage.TitleProperty, "taskTitle");
-            TaskManagerImpl tm = TaskManagerImpl.Instance;
+            Manager tm = App.Manager;
             NavigationPage.SetHasNavigationBar(this, true);
-            var currentTask = task;
-            Console.WriteLine("CURRENT TASK" + currentTask.ID);
+
+            Database db = tm.GetDatabase("task-db");
+            
+
+
             var titleLabel = new Label { Text = "Title" };
             var titleEntry = new Entry();
 
@@ -33,16 +37,21 @@ namespace SharedApp.Views
             var saveButton = new Button { Text = "Save" };
             saveButton.Clicked += (sender, e) =>
             {
-                var taskItem = (Task)BindingContext;
-                tm.addTask(taskItem);
+                Document doc = db.CreateDocument();
+                var properties = new Dictionary<string, object> 
+                {
+                    {"taskTitle", titleEntry},
+                    {"taskText", textEntry}
+                };
+                doc.PutProperties(properties);
                 this.Navigation.PopAsync();
             };
 
             var deleteButton = new Button { Text = "Delete" };
             deleteButton.Clicked += (sender, e) =>
             {
-                var taskItem = (Task)BindingContext;
-                tm.deleteTask(taskItem);
+                //var taskItem = currentTask;
+                //tm.deleteTask(taskItem);
                 this.Navigation.PopAsync();
             };
 
@@ -50,20 +59,28 @@ namespace SharedApp.Views
                 Source = null
             };
 
-            if (currentTask != null)
-            {                
-                if (currentTask.taskImage != null)
-                {                   
-                    imageView.Source = ImageSource.FromFile(currentTask.taskImage);
-                }                    
-            }
+            ////if (currentTask != null)
+            ////{                
+            ////    if (currentTask.taskImage != null)
+            ////    {                   
+            ////        imageView.Source = ImageSource.FromFile(currentTask.taskImage);
+            ////    }                    
+            ////}
+            var pickImageButton = new Button { 
+                Text = "Pick image"
                 
-            var pickImageButton = new Button { Text = "Pick image" };
-            
-            pickImageButton.Clicked += (sender, e) =>
-            {
-                DependencyService.Get<IImagePicker>().getImageActivity(currentTask.ID);
             };
+            //if (currentTask != null)
+            //{
+
+                
+                pickImageButton.Clicked += (sender, e) =>
+                {
+                    
+                    //DependencyService.Get<IImagePicker>().getImageActivity(currentTask.ID);
+                };
+           // }
+            
 
             Content = new StackLayout
             {

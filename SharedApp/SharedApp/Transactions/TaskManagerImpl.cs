@@ -42,14 +42,14 @@ namespace SharedApp
             App.Database.deleteItem(task.ID);
         }
 
-        public void addTask(Task task)
+        public int addTask(Task task)
         {
             if (task == null)
             {
                 throw new Exception();
             }
           
-           App.Database.saveItem(task);
+           return App.Database.saveItem(task);
         }
 
         public Task getTask(int taskId)
@@ -58,7 +58,8 @@ namespace SharedApp
         }
 
         public void updateTask(Task task)
-        {            
+        {
+            
             App.Database.saveItem(task);
         }
 
